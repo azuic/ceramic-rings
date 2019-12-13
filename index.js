@@ -1,6 +1,8 @@
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
 am4core.useTheme(am4themes_animated);
 
-let chart = am4core.create("chartdiv", am4charts.PieChart);
+var chart = am4core.create("chartdiv", am4charts.PieChart);
 chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 const summary={'fritware': 1169,
     'other/unspecified': 75,
@@ -34,12 +36,12 @@ chart.innerRadius = am4core.percent(80);
 chart.startAngle = 160;
 chart.endAngle = 450;
 
-let series = chart.series.push(new am4charts.PieSeries());
+var series = chart.series.push(new am4charts.PieSeries());
 series.dataFields.value = "value";
 series.dataFields.category = "type";
 
 series.slices.template.cornerRadius = 20;
-series.slices.template.innerCornerRadius = 7;
+series.slices.template.innerCornerRadius = 20;
 series.slices.template.draggable = true;
 series.slices.template.inert = true;
 
@@ -47,18 +49,28 @@ series.hiddenState.properties.startAngle = 90;
 series.hiddenState.properties.endAngle = 90;
 series.slices.template.propertyFields.fill = "color";
 
-series.slices.template.stroke = am4core.color("#f1f1f1");
+series.slices.template.stroke = am4core.color("#ffffff");
 series.slices.template.strokeWidth = 5;
 series.slices.template.strokeOpacity = 0;
 series.labels.template.disabled = true;
 series.ticks.template.disabled = true;
 
-series.tooltip.background.filters.clear();
-series.tooltip.background.cornerRadius = 20;
-series.tooltip.background.strokeOpacity = 0;
-series.tooltip.pointerOrientation = "horizontal";
-series.tooltip.tooltipText=`{type}`
+// series.tooltip.background.filters.clear();
+// series.tooltip.background.cornerRadius = 20;
+// series.tooltip.background.strokeOpacity = 0;
+// series.tooltip.pointerOrientation = "horizontal";
+// series.tooltip.propertyFields.dx="offset";
+
+let info = chart.plotContainer.createChild(am4core.Container);
+info.width = 80;
+info.height = 60;
+info.x = 10;
+info.y = 10;
+info.padding(10, 10, 10, 10);
+// info.background.fill = am4core.color("#000");
+// info.background.fillOpacity = 0.1;
+// info.layout = "grid";
+let label = info.createChild(am4core.Label);
+label.text = "Total" + String(Object.values(summary).reduce(reducer));
 
 chart.legend = new am4charts.Legend();
-
-document.getElementById("chartdiv").appendChild(series);
