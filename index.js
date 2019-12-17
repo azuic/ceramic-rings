@@ -1,9 +1,3 @@
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
-
-am4core.useTheme(am4themes_animated);
-
-var chart = am4core.create("chartdiv", am4charts.PieChart);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 const summary={'fritware': 1169,
     'other/unspecified': 75,
     'terracotta': 139,
@@ -14,14 +8,24 @@ const summary={'fritware': 1169,
     'clay': 232,
     'porcelain': 1319};
 const colors={'fritware':  am4core.color("#6374bf"),
-    'other/unspecified': am4core.color("#c4abb0"),
-    'terracotta': am4core.color("#d98248"),
+    'other/unspecified': am4core.color("#af9278"),
+    'terracotta': am4core.color("#d17538"),
     'ceramic': am4core.color("#fae6cf"),
     'pottery': am4core.color("#a3b39d"),
-    'earthenware': am4core.color("#c98e79"),
+    'earthenware': am4core.color("#dd9c85"),
     'stoneware': am4core.color("#D9D0C8"),
     'clay': am4core.color("#ccb21f"),
-    'porcelain': am4core.color("#abbfe0")}
+    'porcelain': am4core.color("#abbfe0")};
+
+
+
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+am4core.useTheme(am4themes_animated);
+
+var chart = am4core.create("chartdiv", am4charts.PieChart);
+chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
 let data=[]
 for (let [key, value] of Object.entries(summary)) {
     data.push({
@@ -55,11 +59,11 @@ series.slices.template.strokeOpacity = 0;
 series.labels.template.disabled = true;
 series.ticks.template.disabled = true;
 
-// series.tooltip.background.filters.clear();
-// series.tooltip.background.cornerRadius = 20;
-// series.tooltip.background.strokeOpacity = 0;
-// series.tooltip.pointerOrientation = "horizontal";
-// series.tooltip.propertyFields.dx="offset";
+series.tooltip.background.filters.clear();
+series.tooltip.background.cornerRadius = 20;
+series.tooltip.background.strokeOpacity = 0;
+series.tooltip.pointerOrientation = "horizontal";
+series.tooltip.propertyFields.dx="offset";
 
 let info = chart.plotContainer.createChild(am4core.Container);
 info.width = 80;
@@ -74,3 +78,4 @@ let label = info.createChild(am4core.Label);
 label.text = "Total" + String(Object.values(summary).reduce(reducer));
 
 chart.legend = new am4charts.Legend();
+
